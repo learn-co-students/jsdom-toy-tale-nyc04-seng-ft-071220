@@ -17,8 +17,10 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 
+
 const toyContainer=document.querySelector("div#toy-collection")
 
+//first deliverable start
  function fetchToys(){
   fetch('http://localhost:3000/toys')
   .then(resp => resp.json())
@@ -27,14 +29,9 @@ const toyContainer=document.querySelector("div#toy-collection")
     turnToyToHtml(toy)
     })
 
-      // let arrOfNames=toy.name
-      // console.log(arrOfNames)
-      //   toyContainer.innerHTML += makeNameH2(arrOfNames)
- 
    })
 
-
-  let turnToyToHtml=(toyObj => {
+  let turnToyToHtml=(toyObj=> {
    let outterToyDiv=document.createElement("div")
    outterToyDiv.className="card"
 
@@ -48,23 +45,44 @@ const toyContainer=document.querySelector("div#toy-collection")
     let likesP=document.createElement("p")
     likesP.innerHTML=`${toyObj.likes} Likes`
 
-    outterToyDiv.append(nameH2, toyImage, likesP)
+    let button=document.createElement("btn")
+    button.className="like-btn"
+    button.innerHTML="Like <3"
+
+    outterToyDiv.append(nameH2, toyImage, likesP,button)
 
     console.log(toyContainer)
     toyContainer.append(outterToyDiv)
+
+
+    button.addEventListener("click", (evt) =>{
+      toyObj.likes += 1
+      fetch(`http://localhost:3000/toys/${toyObj.id}`, {
+        method: "PATCH",
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify ({
+          likes: toyObj.likes
+        })
+      })
+        .then(res=>res.json())
+        .then((updatedToy)=> {
+          likesP.innerHTML= `${updatedToy.likes} Likes`
+        })
+
+
+    })
+
+
+
+
+
+
+
   })
 }
 
-// function turnToyToHtml(name){
-//   return `<h2>${name}</h2>`
-// }
+//first deliverable end
 
-// function helperMethod(toy){
-//  toy.name.forEach((nameIndex) =>{
-//   let toyName=document.createElement("h2")
-//   console.log(toyName)
-//   toyName.innerHTML+=toy.name
-//   toyContainer.append(toyName)
-
-//  })
-// }

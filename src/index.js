@@ -4,7 +4,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const addBtn = document.querySelector("#new-toy-btn");
   const toyFormContainer = document.querySelector(".container");
   const addToyForm = document.querySelector(".add-toy-form")
+<<<<<<< HEAD
   const toyDiv = document.querySelector("#toy-collection")
+=======
+>>>>>>> 39376255ec2027f2adf8f2e22469fef0304196dd
 
   addBtn.addEventListener("click", () => {
     // hide & seek with the form
@@ -25,7 +28,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function turnToysIntoObjs(toysArray) {
       toysArray.forEach((toy) => {
-        
+
         let toyCard = document.createElement("div")
         toyCard.className = "card"
         let toyH2 = document.createElement("h2")
@@ -72,13 +75,30 @@ document.addEventListener("DOMContentLoaded", () => {
       toyImg.src = toy.image
       toyImg.className = "toy-avatar"
       let toyPTag = document.createElement("p")
-      toyPTag = toy.likes
+      toyPTag.innerText = toy.likes
       let likeButton = document.createElement("button")
       likeButton.className = "like-btn"
       toyCard.append(toyH2, toyImg, toyPTag, likeButton)
       toyFormContainer.append(toyCard)
 
-
+      likeButton.addEventListener("click", (event) => {
+        let newLike = toy.likes + 1
+        fetch(`http://localhost:3000/toys/${toy.id}`, {
+          method: "PATCH",
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            likes: newLike
+          })
+        })
+          .then(res => res.json())
+          .then((updatedToyObj) => {
+            toy.likes = updatedToyObj.likes
+            toyPTag.innerText = updatedToyObj.likes
+          })
+      })
+      
   }
 
   addToyForm.addEventListener("submit", (event)=> {
@@ -89,7 +109,7 @@ document.addEventListener("DOMContentLoaded", () => {
     fetch("http://localhost:3000/toys", {
       method: "POST",
       headers: {
-        "content-type": "application/json"
+        "content-Type": "application/json"
       },
       body: JSON.stringify({
         name: toyName,

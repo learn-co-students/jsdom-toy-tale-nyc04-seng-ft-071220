@@ -14,20 +14,16 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
-
-//On the index.html page, there is a div with the id "toy-collection."
-//When the page loads, make a 'GET' request to fetch all the toy objects.
-// With the response data, make a <div class="card"> for each toy and
-// add it to the toy-collection div.
-
 //1. grab the toy collection div
 //2. create a div element with class = card(unstable element)
  //h2 tag with the toy's name
 //img tag with the src of the toy's image attribute and the class name "toy-avatar"
 
   let toyDiv = document.querySelector("div#toy-collection") //stable element
+  // console.log(likeButton)
 
     fetch("http://localhost:3000/toys")
+
       .then(res => res.json())
       .then((toyObj) => {
         toyObj.forEach((toys) => {
@@ -57,24 +53,97 @@ document.addEventListener("DOMContentLoaded", () => {
         toyLikes.innerText = `Likes: ${toyPOJO.likes}`
         newToyDiv.append(toyLikes)
 
-
         let toyButton = document.createElement("button")
         toyButton.className = "like-btn"
         toyButton.innerText = "Like <3"
         newToyDiv.append(toyButton)
-        console.log(toyDiv)
+        // console.log(toyDiv)
 
-        }
+
+
+
+        toyButton.addEventListener('click', (evt) => {
+          let numberOfLikes = toyPOJO.likes + 1;
+
+          fetch(`http://localhost:3000/toys/${toyPOJO.id}`, {
+            method: "PATCH",
+            headers: {
+              "content-type": "application/json"
+            },
+            body: JSON.stringify( {
+              likes: numberOfLikes
+            })
+          })
+  
+          .then(res => res.json())
+          .then((updatedToyObject) => {
+
+            toyPOJO.likes = updatedToyObject.likes
+            toyLikes.innerText =`Likes: ${updatedToyObject.likes}`  
+            })
+        })
+
+        // learn.co suggested this 
+
+        // PATCH http://localhost:3000/toys/:id
+        // headers: 
+        // {
+        //   "Content-Type": "application/json",
+        //   Accept: "application/json"
+        // }
+         
+        // body: JSON.stringify({
+        //   "likes": <new number>
+        // })
+
+
+      }
+      //p tag with how many likes that toy has
+      //button tag with a class "like-btn"
+
+
+
+        // FORM SUBMISSION TO ADD NEW TOY 
+
+        let toyForm = document.querySelector('.add-toy-form')
+        // console.log(toyForm)
       
+        toyForm.addEventListener('submit', (evt) => {
+          evt.preventDefault()
+
+          let theNameOfToyInput = evt.target.name.value
+          let theImageOfToyInput = evt.target.image.value
+
+          // console.log(theNameOfToyInput)
+
+        fetch("http://localhost:3000/toys", {
+          method: "POST",
+          headers: {
+            "content-type": "application/json"
+          },
+          body: JSON.stringify( {
+            name: theNameOfToyInput,
+            image: theImageOfToyInput,
+            likes: 0
+          })
+        })
+
+        .then(res => res.json())
+        .then((newToyAdded) => {
+
+          addToyToCollection(newToyAdded)
+
+            // console.log(newToyAdded)
+          })
+        
+        })
 
 
-//p tag with how many likes that toy has
-//button tag with a class "like-btn"
+
     
+        
+
+
       
-
-
-
-
 
 

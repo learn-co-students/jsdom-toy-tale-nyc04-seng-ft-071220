@@ -27,19 +27,26 @@ document.addEventListener("DOMContentLoaded", () => {
     toyImg.className = "toy-avatar"
     let toyLikes = document.createElement("p");
     toyLikes.className = "toyLikes"
-    toyLikes.innerText = `${toy.likes} Likes`
+    toyLikes.innerText = `${toy.likes} likes`
+    let toyDislikes = document.createElement("button");
+    toyDislikes.className = "toyDislikes"
+    toyDislikes.innerText = "👎"
     let toyButton = document.createElement("button");
     toyButton.className = "like-btn"
-    toyButton.innerText = "Like <3"
+    toyButton.innerText = "👍"
+    let deleteButton = document.createElement("button");
+    deleteButton.className = 'delete-btn'
+    deleteButton.innerText="delete"
 
     toyCollection.append(toyDiv);
-    toyDiv.append(toyName, toyImg, toyLikes, toyButton)
+    toyDiv.append(toyName, toyImg, toyLikes, toyButton, toyDislikes, deleteButton)
 
-    let likeButton = toyDiv.querySelector(".like-btn")
+    let likeButton = toyDiv.querySelector(".like-btn");
+    let toyyLikes = toyDiv.querySelector(".toyLikes");
+// /######################### event listener #######################
     likeButton.addEventListener("click", (evt) => {
-      let newLikesAmount = toy.likes + 1
-      console.log(toy.likes)
-      console.log(newLikesAmount)
+      let newLikesAmount = toy.likes+1
+
       fetch(`http://localhost:3000/toys/${toy.id}`, {
         method: "PATCH",
         headers: {
@@ -49,29 +56,62 @@ document.addEventListener("DOMContentLoaded", () => {
           likes: newLikesAmount
         })
       })
-        .then(res => res.json)
+        .then(res => res.json())
         .then((updateToyObject) => {
-          console.log("updated toy object", updateToyObject.likes);
-          toy.likes = updateToyObject.likes 
-          console.log("After Toy's 'Likes' has been updated", toy)
-          let toyLikes = document.querySelector(".toyLikes")
-          toyLikes.innerText = updateToyObject.likes
-          
+          // console.log(toyLikes);
+          // console.log("updated toy object", updateToyObject);
+          toy.likes = updateToyObject.likes
+          // console.log("After Toy's 'Likes' has been updated", updateToyObject)
+          // console.log(toyLikes);
+          toyyLikes.innerText = `${updateToyObject.likes} likes`;
+        })
+    })
+// ###################### Event Listener ############################
+      let DislikeButton = toyDiv.querySelector(".toyDislikes");
+      DislikeButton.addEventListener("click", (evt) => {
+      let newLikesAmount = toy.likes-1
+      // console.log(DislikeButton)
+      fetch(`http://localhost:3000/toys/${toy.id}`, {
+        method: "PATCH",
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          likes: newLikesAmount
+        })
+      })
+        .then(res => res.json())
+        .then((updateToyObject) => {
+          // console.log(toyLikes);
+          // console.log("updated toy object", updateToyObject);
+          toy.likes = updateToyObject.likes
+          // console.log("After Toy's 'Likes' has been updated", updateToyObject)
+          // console.log(toyLikes);
+          toyyLikes.innerText = `${updateToyObject.likes} likes`;
         })
     })
 
+
+    deleteButton.addEventListener("click", () => {
+      fetch(`http://localhost:3000/toys/${toy.id}`, {
+        method: "DELETE"
+    })
+        .then(res => res.json())
+        .then((emptyObject) => {
+            // emptyObject -> {}
+            toyDiv.remove()
+        })
+    })
+    
+
   }
 
-  
+
   fetch(url)
   .then(res => res.json())
   .then((toys) => {
     toys.forEach(toy=>{
-      // create div tag, add class to it
       turnToyObjectToDiv(toy)
-
-      // append the parent
-     
     })
   })
 
@@ -79,7 +119,7 @@ document.addEventListener("DOMContentLoaded", () => {
   addToyForm.addEventListener("submit", (evt) => {
     evt.preventDefault()
     let nameOfToy = evt.target.name.value
-    let imageOfToy = evt.target.image.value 
+    let imageOfToy = evt.target.image.value
     fetch(url, {
       method: "POST",
       headers: {
@@ -92,11 +132,10 @@ document.addEventListener("DOMContentLoaded", () => {
     })
     .then(res => res.json())
     .then(createdToyObject => {
+      createdToyObject.likes = 0
       turnToyObjectToDiv(createdToyObject)
+      console.log(createdToyObject)
       evt.target.reset()
     })
   });
-
-
-  
 })

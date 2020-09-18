@@ -35,19 +35,21 @@ body {
 .toy-avatar {
   justify-self: center;
   height: 12rem;
-  width: auto;
+  width: 25vh;
 }
 
 button {
   position: relative;
-  background-color: #e04b52;
+  background-color: #5988cf;
   border: none;
   border-radius: 5px;
   height: 3rem;
   width: max-content;
   color: whitesmoke;
   font-size: 18px;
+  display: inline-block;
   justify-self: center;
+  vertical-align: middle;
 }
 
 button:hover {

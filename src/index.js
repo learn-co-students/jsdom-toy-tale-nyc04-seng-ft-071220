@@ -28,6 +28,11 @@ function addToyInfo(toyObj){
   return cardDiv;
 }
 
+function newToyObj(toyName, toyImage) {
+  const toyObj = {name: toyName, image: toyImage, likes: 0};
+  return toyObj;
+}
+
 
 document.addEventListener("DOMContentLoaded", () => {
   fetch("http://localhost:3000/toys")
@@ -54,7 +59,24 @@ document.addEventListener("DOMContentLoaded", () => {
   const toyCollection = document.querySelector("#toy-collection");
   addBtn.addEventListener("click", () => {
     // hide & seek with the form
-    addToy = !addToy;
+    const toyForm = document.querySelector("form.add-toy-form");
+    // addToy = !addToy;
+    fetch("http://localhost:3000/toys", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json"
+      },
+      body: JSON.stringify(newToyObj("bear", "https://images.unsplash.com/photo-1548016193-b9381233058c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2855&q=80"))
+    })
+    .then (res => res.json)
+    .then (data => {
+      debugger
+      const toyInfoForDom = addToyInfo(data);
+      const toyCollection = document.querySelector("#toy-collection")
+      toyCollection.append(toyInfoForDom);
+    })
+
     if (addToy) {
       toyFormContainer.style.display = "block";
     } else {

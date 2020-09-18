@@ -5,7 +5,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const toyFormContainer = document.querySelector(".container");
   const addToyForm = document.querySelector(".add-toy-form")
 
-
   addBtn.addEventListener("click", () => {
     // hide & seek with the form
     addToy = !addToy;
@@ -25,7 +24,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function turnToysIntoObjs(toysArray) {
       toysArray.forEach((toy) => {
-        
+
         let toyCard = document.createElement("div")
         toyCard.className = "card"
         let toyH2 = document.createElement("h2")
@@ -34,7 +33,7 @@ document.addEventListener("DOMContentLoaded", () => {
         toyImg.src = toy.image
         toyImg.className = "toy-avatar"
         let toyPTag = document.createElement("p")
-        toyPTag = toy.likes
+        toyPTag.innerText = toy.likes
         let likeButton = document.createElement("button")
         likeButton.className = "like-btn"
         toyCard.append(toyH2, toyImg, toyPTag, likeButton)
@@ -70,13 +69,30 @@ document.addEventListener("DOMContentLoaded", () => {
       toyImg.src = toy.image
       toyImg.className = "toy-avatar"
       let toyPTag = document.createElement("p")
-      toyPTag = toy.likes
+      toyPTag.innerText = toy.likes
       let likeButton = document.createElement("button")
       likeButton.className = "like-btn"
       toyCard.append(toyH2, toyImg, toyPTag, likeButton)
       toyFormContainer.append(toyCard)
 
-
+      likeButton.addEventListener("click", (event) => {
+        let newLike = toy.likes + 1
+        fetch(`http://localhost:3000/toys/${toy.id}`, {
+          method: "PATCH",
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            likes: newLike
+          })
+        })
+          .then(res => res.json())
+          .then((updatedToyObj) => {
+            toy.likes = updatedToyObj.likes
+            toyPTag.innerText = updatedToyObj.likes
+          })
+      })
+      
   }
 
   addToyForm.addEventListener("submit", (event)=> {

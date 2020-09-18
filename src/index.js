@@ -4,10 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const addBtn = document.querySelector("#new-toy-btn");
   const toyFormContainer = document.querySelector(".container");
   const addToyForm = document.querySelector(".add-toy-form")
-<<<<<<< HEAD
   const toyDiv = document.querySelector("#toy-collection")
-=======
->>>>>>> 39376255ec2027f2adf8f2e22469fef0304196dd
 
   addBtn.addEventListener("click", () => {
     // hide & seek with the form
@@ -40,7 +37,7 @@ document.addEventListener("DOMContentLoaded", () => {
         toyPTag.innerText = toy.likes
         let likeButton = document.createElement("button")
         likeButton.className = "like-btn"
-          likeButton.innerText = "👍"
+        let likeButton.innerText = "👍"
         toyCard.append(toyH2, toyImg, toyPTag, likeButton)
         toyDiv.append(toyCard)
 

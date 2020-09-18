@@ -4,21 +4,13 @@
       "id": 1,
       "name": "Woody",
       "image": "http://www.pngmart.com/files/3/Toy-Story-Woody-PNG-Photos.png",
-<<<<<<< HEAD
-      "likes": 10
-=======
-      "likes": 15
->>>>>>> 39376255ec2027f2adf8f2e22469fef0304196dd
+      "likes": 11
     },
     {
       "id": 2,
       "name": "Buzz Lightyear",
       "image": "http://www.pngmart.com/files/6/Buzz-Lightyear-PNG-Transparent-Picture.png",
-<<<<<<< HEAD
       "likes": 25
-=======
-      "likes": 21
->>>>>>> 39376255ec2027f2adf8f2e22469fef0304196dd
     },
     {
       "id": 3,
@@ -30,11 +22,7 @@
       "id": 4,
       "name": "Slinky Dog",
       "image": "https://www.freeiconspng.com/uploads/slinky-png-transparent-1.png",
-<<<<<<< HEAD
       "likes": 11
-=======
-      "likes": 15
->>>>>>> 39376255ec2027f2adf8f2e22469fef0304196dd
     },
     {
       "id": 5,
@@ -46,13 +34,13 @@
       "id": 6,
       "name": "Bo Peep",
       "image": "http://4.bp.blogspot.com/_OZHbJ8c71OM/Sog43CMFX2I/AAAAAAAADEs/0AKX0XslD4g/s400/bo.png",
-      "likes": 2
+      "likes": 3
     },
     {
       "id": 7,
       "name": "Hamm",
       "image": "https://cdn140.picsart.com/244090226021212.png?r1024x1024",
-      "likes": 7
+      "likes": 8
     },
     {
       "id": 8,
@@ -69,13 +57,13 @@
     {
       "name": "Barbie",
       "image": "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%3Fid%3DOIP.5fSnaHd3MDeo7PaXytSGUwAAAA%26pid%3DApi&f=1",
-      "likes": 3,
+      "likes": 4,
       "id": 10
     },
     {
       "name": "Mrs. Potato Head",
       "image": "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%3Fid%3DOIP.jbIDqLFNSIPUzUiiKJgQ7wHaFJ%26pid%3DApi&f=1",
-      "likes": 10,
+      "likes": 11,
       "id": 11
     }
   ]

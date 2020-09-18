@@ -103,7 +103,7 @@ document.addEventListener("DOMContentLoaded", () => {
     fetch("http://localhost:3000/toys", {
       method: "POST",
       headers: {
-        "content-type": "application/json"
+        "content-Type": "application/json"
       },
       body: JSON.stringify({
         name: toyName,

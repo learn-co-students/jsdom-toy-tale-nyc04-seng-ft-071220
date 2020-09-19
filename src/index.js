@@ -22,9 +22,28 @@ function addToyInfo(toyObj){
   const button = document.createElement("button");
   button.className = "like-btn";
   button.innerText = "Like <3";
-
   //append all children to parent div
-  cardDiv.append(h2Tag,imgTag,pTag,button);
+  cardDiv.append(h2Tag, imgTag, pTag, button);
+
+  //add EventListener to button
+  button.addEventListener("click", (evt) => {
+    fetch(`http://localhost:3000/toys/${toyObj.id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json"
+      },
+      body: JSON.stringify({
+        likes: toyObj.likes + 1
+      })
+    })
+    .then(res => console.log(res))
+    .then((updatedToy) => {
+      debugger
+      pTag.innerText = `${updatedToy.likes} Likes` //updating Likes in the DOM
+      toyObj.likes = updatedToy.likes
+    })
+  });
   return cardDiv;
 }
 
@@ -53,34 +72,38 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
 
-
-  const addBtn = document.querySelector("#new-toy-btn");
-  const toyFormContainer = document.querySelector(".container");
-  const toyCollection = document.querySelector("#toy-collection");
+const addBtn = document.querySelector("#new-toy-btn");
+const toyFormContainer = document.querySelector(".container");
+const toyCollection = document.querySelector("#toy-collection");
   addBtn.addEventListener("click", () => {
     // hide & seek with the form
-    const toyForm = document.querySelector("form.add-toy-form");
-    // addToy = !addToy;
-    fetch("http://localhost:3000/toys", {
+    addToy = !addToy;
+      if (addToy) {
+        toyFormContainer.style.display = "block";
+      } else {
+        toyFormContainer.style.display = "none";
+      }
+    });
+  });
+
+const toyForm = document.querySelector("form.add-toy-form");
+toyForm.addEventListener("submit", (evt) => {
+  evt.preventDefault()
+  let theImage = evt.target.image.value
+  let theName = evt.target.name.value
+  fetch("http://localhost:3000/toys", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json"
       },
-      body: JSON.stringify(newToyObj("bear", "https://images.unsplash.com/photo-1548016193-b9381233058c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2855&q=80"))
+      body: JSON.stringify(newToyObj(theName, theImage))
     })
     .then (res => res.json)
     .then (data => {
-      debugger
       const toyInfoForDom = addToyInfo(data);
       const toyCollection = document.querySelector("#toy-collection")
       toyCollection.append(toyInfoForDom);
     })
-
-    if (addToy) {
-      toyFormContainer.style.display = "block";
-    } else {
-      toyFormContainer.style.display = "none";
-    }
-  });
-});
+})  
+    

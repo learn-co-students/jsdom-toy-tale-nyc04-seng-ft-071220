@@ -58,7 +58,7 @@ document.addEventListener("DOMContentLoaded", () => {
     .then(res => res.json())
     .then(data => {
       //Iterate over returned data from fetch with forEach array method
-      data.forEach((toyObj) =>{
+      data.forEach((toyObj) => {
         //Store output from addToyInfo function to a variable
         const toyInfoForDom = addToyInfo(toyObj);
 
